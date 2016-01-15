@@ -1,0 +1,18 @@
+{
+  "name": "waylaidwanderer/steamlytics-sdk-php",
+  "type": "library",
+  "description": "PHP library for Steamlytics' various APIs.",
+  "homepage": "https://github.com/waylaidwanderer/Steamlytics-SDK-PHP",
+  "license": "MIT",
+  "autoload": {
+    "psr-4": {
+      "waylaidwanderer\\Steamlytics\\": ""
+    }
+  },
+  "authors": [
+    {
+      "name": "Joel",
+      "email": "waylaidwanderer@live.com"
+    }
+  ]
+}

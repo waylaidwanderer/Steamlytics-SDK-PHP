@@ -1,12 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Joel
- * Date: 2015-12-16
- * Time: 4:17 AM
- */
 
-namespace App\Steamlytics\CSGO;
+namespace waylaidwanderer\Steamlytics\CSGO;
 
 
 class PricesItem

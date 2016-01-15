@@ -1,15 +1,9 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Joel
- * Date: 2015-12-16
- * Time: 3:56 AM
- */
 
-namespace App\Steamlytics\CSGO;
+namespace waylaidwanderer\Steamlytics\CSGO;
 
 
-use App\Steamlytics\SteamlyticsException;
+use waylaidwanderer\Steamlytics\SteamlyticsException;
 
 class CSGO
 {
