@@ -21,10 +21,14 @@ class CSGO
      */
     public function getPricelist()
     {
-        $url = self::BASE_API_URL . 'pricelist?key=' . $this->apiKey;
-        $json = json_decode(file_get_contents($url), true);
-        if (isset($json['success']) && $json['success'] === true) {
-            return new Pricelist($json);
+        try {
+            $url = self::BASE_API_URL . 'pricelist?key=' . $this->apiKey;
+            $json = json_decode(file_get_contents($url), true);
+            if (isset($json['success']) && $json['success'] === true) {
+                return new Pricelist($json);
+            }
+        } catch (\Exception $ex) {
+
         }
         throw new SteamlyticsException('Failed to retrieve v1/pricelist.');
     }
@@ -39,19 +43,23 @@ class CSGO
      */
     public function getPrice($marketHashName, $source = null, $from = null, $to = null)
     {
-        $url = self::BASE_API_URL . 'prices/' . str_replace('%2F', '%252F', rawurlencode($marketHashName)) . '?key=' . $this->apiKey;
-        if ($source) {
-            $url .= '&source=' . $source;
-        }
-        if ($from) {
-            $url .= '&from=' . $from;
-        }
-        if ($to) {
-            $url .= '&to=' . $to;
-        }
-        $json = json_decode(file_get_contents($url), true);
-        if (isset($json['success']) && $json['success'] === true) {
-            return new PricesItem($marketHashName, $json);
+        try {
+            $url = self::BASE_API_URL . 'prices/' . str_replace('%2F', '%252F', rawurlencode($marketHashName)) . '?key=' . $this->apiKey;
+            if ($source) {
+                $url .= '&source=' . $source;
+            }
+            if ($from) {
+                $url .= '&from=' . $from;
+            }
+            if ($to) {
+                $url .= '&to=' . $to;
+            }
+            $json = json_decode(file_get_contents($url), true);
+            if (isset($json['success']) && $json['success'] === true) {
+                return new PricesItem($marketHashName, $json);
+            }
+        } catch (\Exception $ex) {
+
         }
         throw new SteamlyticsException("Failed to retrieve v1/prices for {$marketHashName}. Source: {$source}, from: {$from}, to: {$to}.");
     }
