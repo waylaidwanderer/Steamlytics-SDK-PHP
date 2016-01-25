@@ -6,6 +6,9 @@ namespace waylaidwanderer\Steamlytics\CSGO;
 class Pricelist
 {
     private $pricesItems;
+    private $fromTimestamp;
+    private $buildTime;
+    private $updatedAtTimestamp;
 
     public function __construct($json)
     {
@@ -15,6 +18,33 @@ class Pricelist
                 $this->pricesItems[$marketHashName] = new PricesItem($marketHashName, $pricesItemJson);
             }
         }
+        $this->fromTimestamp = $json['from'];
+        $this->buildTime = $json['build_time'];
+        $this->updatedAtTimestamp = $json['updated_at'];
+    }
+
+    /**
+     * @return int
+     */
+    public function getFromTimestamp()
+    {
+        return $this->fromTimestamp;
+    }
+
+    /**
+     * @return int
+     */
+    public function getBuildTime()
+    {
+        return $this->buildTime;
+    }
+
+    /**
+     * @return int
+     */
+    public function getUpdatedAtTimestamp()
+    {
+        return $this->updatedAtTimestamp;
     }
 
     /**
