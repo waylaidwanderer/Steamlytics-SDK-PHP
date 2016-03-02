@@ -5,6 +5,7 @@ namespace waylaidwanderer\Steamlytics\CSGO;
 
 class PricesItem
 {
+    private $json;
     private $name;
     private $medianPrice;
     private $medianNetPrice;
@@ -21,6 +22,7 @@ class PricesItem
 
     public function __construct($marketHashName, $json)
     {
+        $this->json = $json;
         $this->name = $marketHashName;
         $this->medianPrice = (float)$json['median_price'];
         $this->medianNetPrice = (float)$json['median_net_price'];
@@ -34,6 +36,16 @@ class PricesItem
         $this->deviationPercentage = (float)$json['deviation_percentage'];
         $this->volume = (int)$json['volume'];
         $this->firstSeen = (int)$json['first_seen'];
+    }
+
+    public function jsonSerialize()
+    {
+        return $this->toArray();
+    }
+
+    public function toArray()
+    {
+        return $this->json;
     }
 
     /**
