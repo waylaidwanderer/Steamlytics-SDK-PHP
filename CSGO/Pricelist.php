@@ -3,7 +3,7 @@
 namespace waylaidwanderer\Steamlytics\CSGO;
 
 
-class Pricelist
+class Pricelist implements \JsonSerializable
 {
     private $json;
     private $pricesItems;
