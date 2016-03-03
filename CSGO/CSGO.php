@@ -69,4 +69,25 @@ class CSGO
             throw new SteamlyticsException("Failed to retrieve v1/prices for {$marketHashName} (source: {$source}, from: {$from}, to: {$to}): " . $ex->getMessage());
         }
     }
+
+    /**
+     * @return Items
+     * @throws SteamlyticsException
+     */
+    public function getItems()
+    {
+        try {
+            $url = self::BASE_API_URL . 'items?key=' . $this->apiKey;
+            $json = json_decode(file_get_contents($url), true);
+            if (!isset($json['success'])) {
+                throw new SteamlyticsException('Failed to retrieve v1/items: could not get a response from the API.');
+            }
+            if ($json['success'] === false) {
+                throw new SteamlyticsException("Failed to retrieve v1/items: {$json['message']}");
+            }
+            return new Items($json);
+        } catch (\Exception $ex) {
+            throw new SteamlyticsException('Failed to retrieve v1/items: ' . $ex->getMessage());
+        }
+    }
 }
