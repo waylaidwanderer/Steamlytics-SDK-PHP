@@ -24,13 +24,16 @@ class CSGO
         try {
             $url = self::BASE_API_URL . 'pricelist?key=' . $this->apiKey;
             $json = json_decode(file_get_contents($url), true);
-            if (isset($json['success']) && $json['success'] === true) {
-                return new Pricelist($json);
+            if (!isset($json['success'])) {
+                throw new SteamlyticsException('Failed to retrieve v1/pricelist: could not get a response from the API.');
             }
+            if ($json['success'] === false) {
+                throw new SteamlyticsException('Failed to retrieve v1/pricelist: ' . $json['message']);
+            }
+            return new Pricelist($json);
         } catch (\Exception $ex) {
-
+            throw new SteamlyticsException('Failed to retrieve v1/pricelist: ' . $ex->getMessage());
         }
-        throw new SteamlyticsException('Failed to retrieve v1/pricelist.');
     }
 
     /**
@@ -55,12 +58,15 @@ class CSGO
                 $url .= '&to=' . $to;
             }
             $json = json_decode(file_get_contents($url), true);
-            if (isset($json['success']) && $json['success'] === true) {
-                return new PricesItem($marketHashName, $json);
+            if (!isset($json['success'])) {
+                throw new SteamlyticsException("Failed to retrieve v1/prices for {$marketHashName} (source: {$source}, from: {$from}, to: {$to}): could not get a response from the API.");
             }
+            if ($json['success'] === false) {
+                throw new SteamlyticsException("Failed to retrieve v1/prices for {$marketHashName} (source: {$source}, from: {$from}, to: {$to}): {$json['message']}");
+            }
+            return new PricesItem($marketHashName, $json);
         } catch (\Exception $ex) {
-
+            throw new SteamlyticsException("Failed to retrieve v1/prices for {$marketHashName} (source: {$source}, from: {$from}, to: {$to}): " . $ex->getMessage());
         }
-        throw new SteamlyticsException("Failed to retrieve v1/prices for {$marketHashName}. Source: {$source}, from: {$from}, to: {$to}.");
     }
 }
