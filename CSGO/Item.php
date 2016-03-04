@@ -15,6 +15,8 @@ class Item implements \JsonSerializable
     private $marketName;
     private $marketHashName;
     private $iconUrl;
+    private $nameColor;
+    private $qualityColor;
 
     public function __construct($json)
     {
@@ -22,6 +24,8 @@ class Item implements \JsonSerializable
         $this->marketName = $json['market_name'];
         $this->marketHashName = $json['market_hash_name'];
         $this->iconUrl = $json['icon_url'];
+        $this->nameColor = $json['name_color'];
+        $this->qualityColor = $json['quaity_color'];
     }
 
     public function jsonSerialize()
@@ -56,5 +60,21 @@ class Item implements \JsonSerializable
     public function getIconUrl()
     {
         return $this->iconUrl;
+    }
+
+    /**
+     * @return string
+     */
+    public function getNameColor()
+    {
+        return $this->nameColor;
+    }
+
+    /**
+     * @return string
+     */
+    public function getQualityColor()
+    {
+        return $this->qualityColor;
     }
 }
