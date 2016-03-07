@@ -25,7 +25,7 @@ class Item implements \JsonSerializable
         $this->marketHashName = $json['market_hash_name'];
         $this->iconUrl = $json['icon_url'];
         $this->nameColor = $json['name_color'];
-        $this->qualityColor = $json['quaity_color'];
+        $this->qualityColor = $json['quality_color'];
     }
 
     public function jsonSerialize()
