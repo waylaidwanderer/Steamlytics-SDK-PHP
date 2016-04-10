@@ -16,13 +16,17 @@ class CSGO
     }
 
     /**
+     * @param null $from
      * @return Pricelist
      * @throws SteamlyticsException
      */
-    public function getPricelist()
+    public function getPricelist($from = null)
     {
         try {
             $url = self::BASE_API_URL . 'pricelist?key=' . $this->apiKey;
+            if ($from) {
+                $url .= '&from=' . $from;
+            }
             $json = json_decode(file_get_contents($url), true);
             if (!isset($json['success'])) {
                 throw new SteamlyticsException('Failed to retrieve v1/pricelist: could not get a response from the API.');
