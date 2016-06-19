@@ -7,7 +7,7 @@ use waylaidwanderer\Steamlytics\SteamlyticsException;
 
 class CSGO
 {
-    const BASE_API_URL = "http://csgo.steamlytics.xyz/api/v1/";
+    const BASE_API_URL = "http://api.csgo.steamlytics.xyz/v1/";
     private $apiKey;
 
     public function __construct($apiKey)
@@ -17,15 +17,19 @@ class CSGO
 
     /**
      * @param null $from
+     * @param null $currency
      * @return Pricelist
      * @throws SteamlyticsException
      */
-    public function getPricelist($from = null)
+    public function getPricelist($from = null, $currency = null)
     {
         try {
             $url = self::BASE_API_URL . 'pricelist?key=' . $this->apiKey;
             if ($from) {
                 $url .= '&from=' . $from;
+            }
+            if ($currency) {
+                $url .= '&currency=' . $currency;
             }
             $json = json_decode(file_get_contents($url), true);
             if (!isset($json['success'])) {
@@ -45,10 +49,11 @@ class CSGO
      * @param $source
      * @param $from
      * @param $to
+     * @param null $currency
      * @return PricesItem
      * @throws SteamlyticsException
      */
-    public function getPrice($marketHashName, $source = null, $from = null, $to = null)
+    public function getPrice($marketHashName, $source = null, $from = null, $to = null, $currency = null)
     {
         try {
             $url = self::BASE_API_URL . 'prices/' . str_replace('%2F', '%252F', rawurlencode($marketHashName)) . '?key=' . $this->apiKey;
@@ -60,6 +65,9 @@ class CSGO
             }
             if ($to) {
                 $url .= '&to=' . $to;
+            }
+            if ($currency) {
+                $url .= '&currency=' . $currency;
             }
             $json = json_decode(file_get_contents($url), true);
             if (!isset($json['success'])) {
