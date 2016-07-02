@@ -7,7 +7,7 @@ use waylaidwanderer\Steamlytics\SteamlyticsException;
 
 class CSGO
 {
-    const BASE_API_URL = "http://api.csgo.steamlytics.xyz/v1/";
+    const BASE_API_URL = "http://api.csgo.steamlytics.xyz/";
     private $apiKey;
 
     public function __construct($apiKey)
@@ -16,31 +16,27 @@ class CSGO
     }
 
     /**
-     * @param null $from
-     * @param null $currency
+     * @param string|null $currency
      * @return Pricelist
      * @throws SteamlyticsException
      */
-    public function getPricelist($from = null, $currency = null)
+    public function getPricelist($currency = null)
     {
         try {
-            $url = self::BASE_API_URL . 'pricelist?key=' . $this->apiKey;
-            if ($from) {
-                $url .= '&from=' . $from;
-            }
+            $url = self::BASE_API_URL . 'v2/pricelist?key=' . $this->apiKey;
             if ($currency) {
                 $url .= '&currency=' . $currency;
             }
             $json = json_decode(file_get_contents($url), true);
             if (!isset($json['success'])) {
-                throw new SteamlyticsException('Failed to retrieve v1/pricelist: could not get a response from the API.');
+                throw new SteamlyticsException('Failed to retrieve v2/pricelist: could not get a response from the API.');
             }
             if ($json['success'] === false) {
-                throw new SteamlyticsException('Failed to retrieve v1/pricelist: ' . $json['message']);
+                throw new SteamlyticsException('Failed to retrieve v2/pricelist: ' . $json['message']);
             }
             return new Pricelist($json);
         } catch (\Exception $ex) {
-            throw new SteamlyticsException('Failed to retrieve v1/pricelist: ' . $ex->getMessage());
+            throw new SteamlyticsException('Failed to retrieve v2/pricelist: ' . $ex->getMessage());
         }
     }
 
@@ -56,7 +52,7 @@ class CSGO
     public function getPrice($marketHashName, $source = null, $from = null, $to = null, $currency = null)
     {
         try {
-            $url = self::BASE_API_URL . 'prices/' . str_replace('%2F', '%252F', rawurlencode($marketHashName)) . '?key=' . $this->apiKey;
+            $url = self::BASE_API_URL . 'v1/prices/' . str_replace('%2F', '%252F', rawurlencode($marketHashName)) . '?key=' . $this->apiKey;
             if ($source) {
                 $url .= '&source=' . $source;
             }
@@ -89,7 +85,7 @@ class CSGO
     public function getItems()
     {
         try {
-            $url = self::BASE_API_URL . 'items?key=' . $this->apiKey;
+            $url = self::BASE_API_URL . 'v1/items?key=' . $this->apiKey;
             $json = json_decode(file_get_contents($url), true);
             if (!isset($json['success'])) {
                 throw new SteamlyticsException('Failed to retrieve v1/items: could not get a response from the API.');

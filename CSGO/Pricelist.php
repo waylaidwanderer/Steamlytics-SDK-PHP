@@ -3,10 +3,12 @@
 namespace waylaidwanderer\Steamlytics\CSGO;
 
 
+use waylaidwanderer\Steamlytics\CSGO\V2\PricelistItem;
+
 class Pricelist implements \JsonSerializable
 {
     private $json;
-    private $pricesItems;
+    private $pricelistItems;
     private $fromTimestamp;
     private $buildTime;
     private $updatedAtTimestamp;
@@ -14,11 +16,9 @@ class Pricelist implements \JsonSerializable
     public function __construct($json)
     {
         $this->json = $json;
-        $this->pricesItems = [];
+        $this->pricelistItems = [];
         foreach ($json['items'] as $marketHashName => $pricesItemJson) {
-            if ($pricesItemJson['volume'] > 0) {
-                $this->pricesItems[$marketHashName] = new PricesItem($marketHashName, $pricesItemJson);
-            }
+            $this->pricelistItems[$marketHashName] = new PricelistItem($marketHashName, $pricesItemJson);
         }
         $this->fromTimestamp = $json['from'];
         $this->buildTime = $json['build_time'];
@@ -61,11 +61,11 @@ class Pricelist implements \JsonSerializable
 
     /**
      * @param $marketHashName
-     * @return PricesItem|null
+     * @return PricelistItem|null
      */
     public function getPrice($marketHashName) {
-        if (isset($this->pricesItems[$marketHashName])) {
-            return $this->pricesItems[$marketHashName];
+        if (isset($this->pricelistItems[$marketHashName])) {
+            return $this->pricelistItems[$marketHashName];
         }
         return null;
     }
@@ -75,14 +75,14 @@ class Pricelist implements \JsonSerializable
      * @return bool
      */
     public function doesItemExist($marketHashName) {
-        return isset($this->pricesItems[$marketHashName]);
+        return isset($this->pricelistItems[$marketHashName]);
     }
 
     /**
-     * @return PricesItem[]
+     * @return PricelistItem[]
      */
     public function getPrices()
     {
-        return $this->pricesItems;
+        return $this->pricelistItems;
     }
 }
