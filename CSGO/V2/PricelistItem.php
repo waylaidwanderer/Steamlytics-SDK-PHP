@@ -18,6 +18,7 @@ class PricelistItem implements \JsonSerializable
     private $safePrice;
     private $safeNetPrice;
     private $ongoingPriceManipulation;
+    private $totalVolume;
     private $sevenDays;
     private $thirtyDays;
     private $allTime;
@@ -30,6 +31,7 @@ class PricelistItem implements \JsonSerializable
         $this->safePrice = (float)$json['safe_price'];
         $this->safeNetPrice = (float)$json['safe_net_price'];
         $this->ongoingPriceManipulation = (bool)$json['ongoing_price_manipulation'];
+        $this->totalVolume = (int)$json['total_volume'];
         $this->sevenDays = new Prices($json['7_days']);
         $this->thirtyDays = new Prices($json['30_days']);
         $this->allTime = new Prices($json['all_time']);
