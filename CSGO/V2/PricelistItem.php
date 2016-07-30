@@ -81,6 +81,14 @@ class PricelistItem implements \JsonSerializable
     }
 
     /**
+     * @return int
+     */
+    public function getTotalVolume()
+    {
+        return $this->totalVolume;
+    }
+
+    /**
      * @return Prices
      */
     public function getSevenDays()
